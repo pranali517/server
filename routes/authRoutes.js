@@ -1,30 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user');
-const bcrypt = require('bcryptjs');
+const { signup, login, forgotPassword, resetPassword } = require('../controllers/authcontrollers');
 
-router.post('/signup', async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
+router.post('/signup', signup);
+router.post('/login', login);
 
-    if (!username || !email || !password) {
-      return res.status(400).json({ error: 'All fields are required.' });
-    }
-
-    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
-    if (existingUser) {
-      return res.status(400).json({ error: 'Username or email already exists.' });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = new User({ username, email, password: hashedPassword });
-    await user.save();
-
-    res.status(201).json({ message: 'Sign up successful!' });
-  } catch (err) {
-    res.status(500).json({ error: 'Server error.' });
-  }
-});
+// 🔐 New routes for password reset
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 
 module.exports = router;

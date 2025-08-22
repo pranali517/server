@@ -1,59 +1,3 @@
-
-
-// const Contact = require('../models/contact');
-// const nodemailer = require('nodemailer');
-
-// // Controller function to handle contact form submission
-// const handleContactForm = async (req, res) => {
-//   try {
-//     const { name, email, phone, subject, message } = req.body;
-
-//     // Basic Validation 
-//     if (!name || !email || !phone || !subject || !message) {
-//       return res.status(400).json({ error: 'All fields are required.' });
-//     }
-
-//     //  Save the contact message to MongoDB
-//     const newContact = new Contact({ name, email, phone, subject, message });
-//     await newContact.save();
-//     console.log("Contact saved:", newContact);
-//     //  Setup Nodemailer transport using Gmail
-//     const transporter = nodemailer.createTransport({
-//       service: 'gmail',
-//       auth: {
-//         user: process.env.EMAIL_USER,     // Your Gmail
-//         pass: process.env.EMAIL_PASS      // App Password 
-//       }
-//     });
-
-//     //  Email content to admin
-//     const mailOptions = {
-//       from: `"PastPortals Contact" <${process.env.EMAIL_USER}>`,
-//       to: process.env.ADMIN_EMAIL,
-//       subject: `New Contact Form Submission: ${subject}`,
-//       html: `
-//         <h3>You received a new contact message:</h3>
-//         <p><strong>Name:</strong> ${name}</p>
-//         <p><strong>Email:</strong> ${email}</p>
-//         <p><strong>Phone:</strong> ${phone}</p>
-//         <p><strong>Subject:</strong> ${subject}</p>
-//         <p><strong>Message:</strong><br/> ${message}</p>
-//       `
-//     };
-
-//     //  Send the email
-//     await transporter.sendMail(mailOptions);
-
-//     // Success response
-//     res.status(200).json({ success: true, message: "Message sent successfully." });
-
-//   } catch (error) {
-//     console.error(" Error in handleContactForm:", error);
-//     res.status(500).json({ error: "Server Error. Please try again later." });
-//   }
-// };
-
-// module.exports = { handleContactForm };
 const Contact = require('../models/contact');
 const nodemailer = require('nodemailer');
 
@@ -81,12 +25,12 @@ const handleContactForm = async (req, res) => {
     });
 
   const mailOptionsAdmin = {
-  from: `"PastPortals Contact" <${process.env.EMAIL_USER}>`,
-  to: process.env.ADMIN_EMAIL,
-  subject: `📬 New Contact Form Submission: ${subject}`,
-  html: `
-    <div style="font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7fa; padding: 32px;">
-      <div style="max-width: 500px; margin: auto; background: #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); padding: 24px;">
+    from: `PastPortals Contact <${process.env.EMAIL_USER}>`,
+    to: process.env.ADMIN_EMAIL,
+    subject: `📬 New Contact Form Submission: ${subject}`,
+    html: `
+      <div style="font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7fa; padding: 32px;">
+        <div style="max-width: 500px; margin: auto; background: #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); padding: 24px;">
         <h2 style="color: #007bff; margin-bottom: 12px;">🚀 New Contact Message Received</h2>
         <p style="font-size: 1.1rem; color: #333;">You have received a new message via PastPortals contact form:</p>
         <hr style="margin: 18px 0;">
@@ -125,7 +69,7 @@ const handleContactForm = async (req, res) => {
 
     // Email content to user (confirmation)
  const mailOptionsUser = {
-  from: `"PastPortals Team" <${process.env.EMAIL_USER}>`,
+  from: `PastPortals Contact <${process.env.EMAIL_USER}>`,
   to: email,
   subject: "🌟 Thank You for Contacting PastPortals!",
   html: `
